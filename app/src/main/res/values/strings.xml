@@ -4,4 +4,6 @@
     <string name="Profile">Profile</string>
     <string name="Settings">Settings</string>
     <string name="Logout">Logout</string>
+    <string name="drawyer_open">Drawer Open</string>
+    <string name="drawyer_close">Drawer Close</string>
 </resources>
