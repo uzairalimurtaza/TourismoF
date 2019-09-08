@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".setupActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="75dp"
+        android:src="@drawable/profile"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+
+    <EditText
+        android:id="@+id/setup_username"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/profile_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/inputs"
+        android:drawableLeft="@drawable/name_2"
+        android:ems="10"
+        android:hint="@string/Name"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:elevation="100dp"/>
+
+    <EditText
+        android:id="@+id/setup_userFullName"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/setup_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/inputs"
+        android:drawableLeft="@drawable/name_1"
+        android:ems="10"
+        android:hint="@string/FullName"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textSize="18sp" />
+
+
+
+    <EditText
+        android:id="@+id/setup_Coutry"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/setup_userFullName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/inputs"
+        android:ems="10"
+        android:hint="@string/Country"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textSize="18sp" />
+
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/setup_Coutry"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button"
+        android:text="SAVE"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+
+
+
+
+</RelativeLayout>

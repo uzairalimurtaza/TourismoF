@@ -6,4 +6,11 @@
     <string name="Logout">Logout</string>
     <string name="drawyer_open">Drawer Open</string>
     <string name="drawyer_close">Drawer Close</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="ConfirmPassword">Confirm Password</string>
+    <string name="CreatnewAccount">Create New Account</string>
+    <string name="Country">Country</string>
+    <string name="FullName">Full Name</string>
+    <string name="Name">Name</string>
 </resources>
