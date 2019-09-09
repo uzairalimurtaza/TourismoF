@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
-        loadingBar= new ProgressDialog(this);
+        loadingBar = new ProgressDialog(this);
         Email = findViewById(R.id.register_email);
         Password = findViewById(R.id.register_password);
         cofirmPassword = findViewById(R.id.register_confirm_password);
@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
                 createNewAccount();
             }
         });
+
 
 
     }
@@ -76,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 sendUserToSetupActivity();
                                 Toast.makeText(getApplicationContext(), "Authenticated Successfully", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
                             } else {
                                 String message = task.getException().getMessage();
                                 Toast.makeText(getApplicationContext(), "Error" + message, Toast.LENGTH_SHORT).show();
@@ -90,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void sendUserToSetupActivity() {
-        Intent setupIntent = new Intent(RegisterActivity.this,setupActivity.class);
+        Intent setupIntent = new Intent(RegisterActivity.this, setupActivity.class);
         setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setupIntent);
         finish();
