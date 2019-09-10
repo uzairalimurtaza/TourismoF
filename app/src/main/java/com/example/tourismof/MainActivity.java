@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mtoolbar;
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
+    private CircleImageView profilePicture;
+    private TextView UserFullName;
+    private ImageButton addnewpostButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        String currentUser = mAuth.getCurrentUser().getUid();
         UsersRef= FirebaseDatabase.getInstance().getReference().child("Users");
+
+        addnewpostButton = findViewById(R.id.add_new_post_button);
 
 
         mtoolbar = findViewById(R.id.main_page_toolbar);
@@ -54,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = findViewById(R.id.navigation_view);
         View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        profilePicture=navView.findViewById(R.id.profile_image);
+        UserFullName=navView.findViewById(R.id.text_view_username);
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -65,6 +81,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        UsersRef.child(currentUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+
+                    if(dataSnapshot.hasChild("fullname")){
+
+                        String FullName = dataSnapshot.child("fullname").getValue().toString();
+                        UserFullName.setText(FullName);
+                    }
+
+                    if(dataSnapshot.hasChild("Profile")){
+
+                        String ProfileImage = dataSnapshot.child("Profile").getValue().toString();
+                        Picasso.get().load(ProfileImage).placeholder(R.drawable.profile).into(profilePicture);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        addnewpostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendUserToPostActivity();
+            }
+        });
+
+
+    }
+
+    private void SendUserToPostActivity() {
+
+        Intent PostIntent = new Intent(MainActivity.this, PostActivity.class);
+
+        PostIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(PostIntent);
 
     }
 
@@ -136,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_settings:
                 Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_add_post:
+                Toast.makeText(getApplicationContext(), "Add Post", Toast.LENGTH_SHORT).show();
+                SendUserToPostActivity();
                 break;
             case R.id.nav_logout:
                 mAuth.signOut();

@@ -32,7 +32,7 @@
             android:text="Chose"
             android:textSize="18dp"
             android:background="@drawable/inputs"
-            >
+            android:onClick="UploadView">
 
         </Button>
 
