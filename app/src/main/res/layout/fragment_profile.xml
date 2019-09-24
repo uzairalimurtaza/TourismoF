@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".Fragments.ProfileFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:weightSum="2"
+                android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginLeft="75dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/profile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+
+
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="MY NAME"
+                    android:textSize="24dp"
+                    android:textStyle="italic"
+                    android:textColor="#000000">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#c0c0c0"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/Full_Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Full Name"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18dp"
+                    android:textColor="#000000"
+                    android:drawableLeft="@drawable/user_name_icon">
+
+                </TextView>
+
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email"
+                    android:layout_marginLeft="50dp"
+                    android:textSize="18dp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/email_profile_icon">
+
+                </TextView>
+
+
+                <TextView
+                    android:id="@+id/Phone_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone No"
+                    android:layout_marginLeft="50dp"
+                    android:textSize="18dp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/phone_no_icon">
+
+                </TextView>
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

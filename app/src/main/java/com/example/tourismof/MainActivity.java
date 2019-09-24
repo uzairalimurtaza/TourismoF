@@ -147,16 +147,13 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.hasChild(current_user_id)){
                     sendUserToSetupActivity();
-
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
     }
 
     private void sendUserToSetupActivity() {

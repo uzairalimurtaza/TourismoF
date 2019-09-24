@@ -204,7 +204,7 @@ public class PostActivity extends AppCompatActivity {
                     Toast.makeText(PostActivity.this, "image uploaded successfully to Storage...", Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
 
-//                    SavingPostInformationToDatabase();
+                    SavingPostInformationToDatabase();
 
                 }
                 else
@@ -218,54 +218,55 @@ public class PostActivity extends AppCompatActivity {
     }
 
 
-//
-//
-//    private void SavingPostInformationToDatabase()
-//    {
-//        UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot)
-//            {
-//                if(dataSnapshot.exists())
-//                {
-//                    String userFullName = dataSnapshot.child("fullname").getValue().toString();
-//                    String userProfileImage = dataSnapshot.child("profileimage").getValue().toString();
-//
-//                    HashMap postsMap = new HashMap();
-//                    postsMap.put("uid", current_user_id);
-//                    postsMap.put("date", saveCurrentDate);
-//                    postsMap.put("time", saveCurrentTime);
-//                    postsMap.put("description", Description);
-//                    postsMap.put("postimage", downloadUrl);
-//                    postsMap.put("profileimage", userProfileImage);
-//                    postsMap.put("fullname", userFullName);
-//                    PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap)
-//                            .addOnCompleteListener(new OnCompleteListener() {
-//                                @Override
-//                                public void onComplete(@NonNull Task task)
-//                                {
-//                                    if(task.isSuccessful())
-//                                    {
-//                                        SendUserToMainActivity();
-//                                        Toast.makeText(New_Post.this, "New Post is updated successfully.", Toast.LENGTH_SHORT).show();
-//                                        loadingBar.dismiss();
-//                                    }
-//                                    else
-//                                    {
-//                                        Toast.makeText(New_Post.this, "Error Occured while updating your post.", Toast.LENGTH_SHORT).show();
-//                                        loadingBar.dismiss();
-//                                    }
-//                                }
-//                            });
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+
+
+    private void SavingPostInformationToDatabase()
+    {
+        UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                if(dataSnapshot.exists())
+                {
+                    String userFullName = dataSnapshot.child("fullname").getValue().toString();
+                    String userProfileImage = dataSnapshot.child("Profile").getValue().toString();
+                    Toast.makeText(PostActivity.this, "New Post is updated successfully.", Toast.LENGTH_SHORT).show();
+
+                    HashMap postsMap = new HashMap();
+                    postsMap.put("uid", current_user_id);
+                    postsMap.put("date", saveCurrentDate);
+                    postsMap.put("time", saveCurrentTime);
+                    postsMap.put("description", Description);
+                    postsMap.put("postimage", downloadUrl);
+                    postsMap.put("profileimage", userProfileImage);
+                    postsMap.put("fullname", userFullName);
+                    PostsRef.child(current_user_id + postRandomName).updateChildren(postsMap)
+                            .addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task)
+                                {
+                                    if(task.isSuccessful())
+                                    {
+                                        SendUserToMainActivity();
+                                        Toast.makeText(PostActivity.this, "New Post is updated successfully.", Toast.LENGTH_SHORT).show();
+                                        loadingBar.dismiss();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(PostActivity.this, "Error Occured while updating your post.", Toast.LENGTH_SHORT).show();
+                                        loadingBar.dismiss();
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
     private void OpenGallery() {
@@ -308,11 +309,11 @@ public class PostActivity extends AppCompatActivity {
 //    }
 //
 
-//
-//    private void SendUserToMainActivity()
-//    {
-//        Intent mainIntent = new Intent(PostActivity.this, MainActivity.class);
-//        startActivity(mainIntent);
-//    }
+
+    private void SendUserToMainActivity()
+    {
+        Intent mainIntent = new Intent(PostActivity.this, FirstActivity.class);
+        startActivity(mainIntent);
+    }
 }
 
