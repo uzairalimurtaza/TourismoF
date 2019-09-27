@@ -41,21 +41,18 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        View rootview = inflater.inflate(R.layout.all_posts_layout, container, false);
 
 
         mAuth = FirebaseAuth.getInstance();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
         UserRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
-        postList = (RecyclerView) view.findViewById(R.id.recycler_view);
+        postList = view.findViewById(R.id.recycler_view);
         postList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         postList.setLayoutManager(linearLayoutManager);
-
-
         DisplayAllUsersPosts();
 
 
@@ -65,36 +62,39 @@ public class HomeFragment extends Fragment {
     }
 
     private void DisplayAllUsersPosts() {
+
+
         FirebaseRecyclerOptions<Posts> options = new FirebaseRecyclerOptions.Builder<Posts>()
                 .setQuery(PostRef, Posts.class)
                 .build();
-        FirebaseRecyclerAdapter<Posts, PostsViewHolder> adapter =
-                new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(options) {
+
+        FirebaseRecyclerAdapter<Posts, PostsVIewHolder> adapter =
+                new FirebaseRecyclerAdapter<Posts, PostsVIewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull PostsViewHolder holder, int position, @NonNull Posts model) {
-                        holder.setFullname(model.getFullname());
-                        holder.setTime(model.getTime());
+                    protected void onBindViewHolder(@NonNull PostsVIewHolder holder, int position, @NonNull Posts model) {
                         holder.setDate(model.getDate());
+                        holder.setTime(model.getTime());
+                        holder.setFullname(model.getFullname());
                         holder.setDescription(model.getDescription());
-                        holder.setProfileimage(getActivity().getApplicationContext(),model.getProfileimage());
-                        holder.setPostimage(getActivity().getApplicationContext(),model.getPostimage());
+                        holder.setProfileimage(getActivity().getApplicationContext(), model.getProfileimage());
+                        holder.setPostimage(getActivity().getApplicationContext(), model.getPostimage());
                     }
 
                     @NonNull
                     @Override
-                    public PostsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_posts_layout, parent, false);
-                        PostsViewHolder viewHolder = new PostsViewHolder(view);
-                        return viewHolder;
+                    public PostsVIewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.all_posts_layout, parent, false);
+                        return new PostsVIewHolder(view);
                     }
                 };
     }
 
 
-    public static class PostsViewHolder extends RecyclerView.ViewHolder {
+    public static class PostsVIewHolder extends RecyclerView.ViewHolder {
         View mView;
 
-        public PostsViewHolder(View itemView) {
+        public PostsVIewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
         }
