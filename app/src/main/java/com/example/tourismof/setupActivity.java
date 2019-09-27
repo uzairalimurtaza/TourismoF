@@ -1,19 +1,18 @@
 package com.example.tourismof;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,23 +24,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageActivity;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-
-
-public class setupActivity extends AppCompatActivity
-{
+public class setupActivity extends AppCompatActivity {
     private EditText UserName, FullName, CountryName;
     private Button SaveInformationbuttion;
     private CircleImageView ProfileImage;
@@ -55,8 +47,7 @@ public class setupActivity extends AppCompatActivity
     final static int Gallery_Pick = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
@@ -77,24 +68,21 @@ public class setupActivity extends AppCompatActivity
 
         SaveInformationbuttion.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 SaveAccountSetupInformation();
             }
         });
 
 
-                UsersRef.addValueEventListener(new ValueEventListener() {
+        UsersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
 
-                    if(dataSnapshot.hasChild("Profile")) {
+                    if (dataSnapshot.hasChild("Profile")) {
                         String img = dataSnapshot.child("Profile").getValue().toString();
                         Picasso.get().load(img).placeholder(R.drawable.profile).into(ProfileImage);
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(setupActivity.this, "Please Add Profile Image", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -107,26 +95,20 @@ public class setupActivity extends AppCompatActivity
         });
     }
 
-    private void SaveAccountSetupInformation()
-    {
+    private void SaveAccountSetupInformation() {
         String username = UserName.getText().toString();
         String fullname = FullName.getText().toString();
         String country = CountryName.getText().toString();
 
-        if(TextUtils.isEmpty(username))
-        {
+        if (TextUtils.isEmpty(username)) {
             Toast.makeText(this, "Please write your username...", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(fullname))
-        {
+        if (TextUtils.isEmpty(fullname)) {
             Toast.makeText(this, "Please write your full name...", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(country))
-        {
+        if (TextUtils.isEmpty(country)) {
             Toast.makeText(this, "Please write your country...", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             loadingBar.setTitle("Saving Information");
             loadingBar.setMessage("Please wait, while we are creating your new Account...");
             loadingBar.show();
@@ -140,17 +122,13 @@ public class setupActivity extends AppCompatActivity
             userMap.put("ph_no", "none");
             UsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
-                public void onComplete(@NonNull Task task)
-                {
-                    if(task.isSuccessful())
-                    {
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
                         SendUserToMainActivity();
                         Toast.makeText(setupActivity.this, "your Account is created Successfully.", Toast.LENGTH_LONG).show();
                         loadingBar.dismiss();
-                    }
-                    else
-                    {
-                        String message =  task.getException().getMessage();
+                    } else {
+                        String message = task.getException().getMessage();
                         Toast.makeText(setupActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
                         loadingBar.dismiss();
                     }
@@ -160,10 +138,8 @@ public class setupActivity extends AppCompatActivity
     }
 
 
-
-    private void SendUserToMainActivity()
-    {
-        Intent mainIntent = new Intent(setupActivity.this, PostActivity.class);
+    private void SendUserToMainActivity() {
+        Intent mainIntent = new Intent(setupActivity.this, FirstActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
@@ -171,21 +147,19 @@ public class setupActivity extends AppCompatActivity
 
     public void UploadView(View view) {
 
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, Gallery_Pick);
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, Gallery_Pick);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == Gallery_Pick)
-        {
-            if(resultCode == RESULT_OK)
-            {
-                Uri imageData= data.getData();
+        if (requestCode == Gallery_Pick) {
+            if (resultCode == RESULT_OK) {
+                Uri imageData = data.getData();
 
                 final StorageReference ImageName = UserProfileImageRef.child(currentUserID + ".jpg");
                 ImageName.putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -200,13 +174,13 @@ public class setupActivity extends AppCompatActivity
                                 UsersRef.child("Profile").setValue(String.valueOf(uri)).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(setupActivity.this, "Error Resolved " , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(setupActivity.this, "Error Resolved ", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                         });
 
-                        Toast.makeText(setupActivity.this, "Error Occured: " , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(setupActivity.this, "Error Occured: ", Toast.LENGTH_SHORT).show();
 
                     }
                 });
