@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,17 +40,17 @@ public class PostActivity extends AppCompatActivity {
 
     private ImageView SelectPostImage;
     private Button UpdatePostButton;
-    private EditText PostDescription;
+    private EditText PostDescription, PostPrice, PostLocation;
 
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
-    private String Description;
+    private String Description,Price, Location;
 
     private StorageReference PostsImagesRefrence;
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
-    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id;
+    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id, title, description, price;
 
 
     @Override
@@ -68,7 +69,19 @@ public class PostActivity extends AppCompatActivity {
 
         SelectPostImage = findViewById(R.id.post_image);
         UpdatePostButton = findViewById(R.id.Add_post_button);
-        PostDescription = findViewById(R.id.post_description);
+//        PostDescription = findViewById(R.id.post_description);
+        PostLocation = findViewById(R.id.post_location);
+//        PostPrice = findViewById(R.id.post_price);
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null) {
+            title = extras.getString("title");
+            price = extras.getString("price");
+            description = extras.getString("description");
+        }
+
+
         loadingBar = new ProgressDialog(this);
 
 
@@ -92,7 +105,10 @@ public class PostActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void ValidatePostInfo()
     {
-        Description = PostDescription.getText().toString();
+        Description = description;
+        Price = price;
+        title = title;
+        Location = PostLocation.getText().toString();
 
         if(ImageUri == null)
         {
@@ -101,6 +117,14 @@ public class PostActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(Description))
         {
             Toast.makeText(this, "Please say something about your image...", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(Price))
+        {
+            Toast.makeText(this, "Please enter price...", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(Location))
+        {
+            Toast.makeText(this, "Please enter Location...", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -126,30 +150,30 @@ public class PostActivity extends AppCompatActivity {
         postRandomName = saveCurrentDate + saveCurrentTime;
 
 
-        StorageReference filePath = PostsImagesRefrence.child("Post Images").child(ImageUri.getLastPathSegment() +"image "+ postRandomName + ".jpg");
-
-        filePath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        final StorageReference filePath = PostsImagesRefrence.child("Post Images").child(ImageUri.getLastPathSegment() +"image "+ postRandomName + ".jpg");
+        filePath.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
-            {
-                if(task.isSuccessful())
-                {
-                    downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
-                    Toast.makeText(PostActivity.this, "image uploaded successfully to Storage...", Toast.LENGTH_SHORT).show();
-                    loadingBar.dismiss();
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
 
-                    SavingPostInformationToDatabase();
+                        PostsRef.child(current_user_id + postRandomName).child("postimage").setValue(String.valueOf(uri)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(PostActivity.this, "Post Added Successfully", Toast.LENGTH_SHORT).show();
+                                SavingPostInformationToDatabase();
 
-                }
-                else
-                {
-                    String message = task.getException().getMessage();
-                    Toast.makeText(PostActivity.this, "Error occured: " + message, Toast.LENGTH_SHORT).show();
-                    loadingBar.dismiss();
-                }
+                            }
+                        });
+
+                    }
+                });
             }
         });
+
     }
+
     private void SavingPostInformationToDatabase()
     {
         UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
@@ -167,9 +191,11 @@ public class PostActivity extends AppCompatActivity {
                     postsMap.put("date", saveCurrentDate);
                     postsMap.put("time", saveCurrentTime);
                     postsMap.put("description", Description);
-                    postsMap.put("postimage", downloadUrl);
                     postsMap.put("profileimage", userProfileImage);
                     postsMap.put("fullname", userFullName);
+                    postsMap.put("price", Price);
+                    postsMap.put("title", title);
+                    postsMap.put("location", Location);
                     PostsRef.child(current_user_id + postRandomName).
                             updateChildren(postsMap)
                             .addOnCompleteListener(new OnCompleteListener() {
@@ -198,6 +224,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
     }
+
     private void OpenGallery() {
         Intent galleryIntent = new Intent();
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);

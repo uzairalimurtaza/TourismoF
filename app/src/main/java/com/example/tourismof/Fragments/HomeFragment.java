@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        UserRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+        PostRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         postList = view.findViewById(R.id.recycler_view);
         postList.setHasFixedSize(true);
@@ -54,11 +54,7 @@ public class HomeFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         postList.setLayoutManager(linearLayoutManager);
         DisplayAllUsersPosts();
-
-
         return view;
-
-
     }
 
     private void DisplayAllUsersPosts() {
@@ -72,11 +68,9 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerAdapter<Posts, PostsVIewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull PostsVIewHolder holder, int position, @NonNull Posts model) {
-                        holder.setDate(model.getDate());
-                        holder.setTime(model.getTime());
-                        holder.setFullname(model.getFullname());
+                        holder.setprice(model.getprice());
+                        holder.setlocation(model.getlocation());
                         holder.setDescription(model.getDescription());
-                        holder.setProfileimage(getActivity().getApplicationContext(), model.getProfileimage());
                         holder.setPostimage(getActivity().getApplicationContext(), model.getPostimage());
                     }
 
@@ -88,8 +82,9 @@ public class HomeFragment extends Fragment {
                         return new PostsVIewHolder(view);
                     }
                 };
+        postList.setAdapter(adapter);
+        adapter.startListening();
     }
-
 
     public static class PostsVIewHolder extends RecyclerView.ViewHolder {
         View mView;
@@ -99,29 +94,19 @@ public class HomeFragment extends Fragment {
             mView = itemView;
         }
 
-        public void setFullname(String fullname) {
-            TextView username = mView.findViewById(R.id.post_username);
-            username.setText(fullname);
-        }
-
-        public void setProfileimage(Context ctx, String profileimage) {
-            CircleImageView image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
-            Picasso.get().load(profileimage).into(image);
-        }
-
-        public void setTime(String time) {
-            TextView PostTime = (TextView) mView.findViewById(R.id.post_Time);
-            PostTime.setText("    " + time);
-        }
-
-        public void setDate(String date) {
-            TextView PostDate = (TextView) mView.findViewById(R.id.post_Date);
-            PostDate.setText("    " + date);
-        }
-
         public void setDescription(String description) {
             TextView PostDescription = (TextView) mView.findViewById(R.id.post_description);
             PostDescription.setText(description);
+        }
+
+        public void setprice(String price) {
+            TextView PostDescription = (TextView) mView.findViewById(R.id.post_price);
+            PostDescription.setText(price);
+        }
+
+        public void setlocation(String location) {
+            TextView PostDescription = (TextView) mView.findViewById(R.id.post_location);
+            PostDescription.setText(location);
         }
 
         public void setPostimage(Context ctx, String postimage) {

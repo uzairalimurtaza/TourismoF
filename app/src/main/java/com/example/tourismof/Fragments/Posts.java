@@ -2,14 +2,14 @@ package com.example.tourismof.Fragments;
 
 public class Posts {
 
-    public String uid, time, date, postimage, description, profileimage, fullname;
+    public String uid, time, date, postimage, description, profileimage, fullname, price,location,title;
 
     public Posts()
     {
 
     }
 
-    public Posts(String uid, String time, String date, String postimage, String description, String profileimage, String fullname) {
+    public Posts(String uid,String title, String time, String date, String postimage, String description, String profileimage, String fullname,String price,String location) {
         this.uid = uid;
         this.time = time;
         this.date = date;
@@ -17,6 +17,9 @@ public class Posts {
         this.description = description;
         this.profileimage = profileimage;
         this.fullname = fullname;
+        this.price = price;
+        this.location = location;
+        this.title = title;
     }
 
     public String getUid() {
@@ -74,4 +77,30 @@ public class Posts {
     public void setFullname(String fullname) {
         this.fullname = fullname;
     }
+
+    public String getprice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getlocation() {
+        return location;
+    }
+
+    public void setlocation(String location) {
+        this.location = location;
+    }
+
+    public String gettitle() {
+        return title;
+    }
+
+    public void settitle(String title) {
+        this.title = title;
+    }
+
+
 }

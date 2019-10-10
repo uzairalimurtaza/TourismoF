@@ -6,36 +6,27 @@
     android:background="#fff">
 
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        app:menu="@menu/bottom_navigation_menu"-->
-<!--        android:background="#C03939"/>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/post_image"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Title of the Post"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
-            android:elevation="20dp"
-            android:src="@drawable/ic_post_image"
-            android:outlineAmbientShadowColor="#000000">
-
-        </ImageView>
+            android:textSize="60sp"
+            android:textColor="#C03939"
+            android:textStyle="italic"/>
 
         <EditText
-            android:id="@+id/post_location"
+            android:id="@+id/post_title"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_below="@+id/post_image"
+            android:layout_below="@+id/title_text"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
@@ -44,23 +35,37 @@
             android:drawablePadding="5dp"
             android:ems="10"
             android:foregroundTint="#fff"
-            android:hint="Location"
+            android:hint="Title"
             android:inputType="textMultiLine"
             android:textColor="#000000"
             android:textColorHint="#9A8585" />
 
+
+        <TextView
+            android:id="@+id/Post_title_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="i.e Fully furnished room with 1 bed"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/post_title"
+            android:textSize="20sp"
+            android:textColor="#C03939"
+            android:textStyle="italic"/>
+
         <Button
-            android:id="@+id/Add_post_button"
+            android:id="@+id/post_title_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="40dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/button"
-            android:text="Add Post"
+            android:text="Next"
             android:textColor="#fff"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/post_location"/>
+            android:layout_below="@+id/Post_title_hint"
+            android:onClick="mainActivity"/>
 
     </RelativeLayout>
 

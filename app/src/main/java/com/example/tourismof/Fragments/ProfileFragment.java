@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.tourismof.FirstActivity;
 import com.example.tourismof.PostActivity;
+import com.example.tourismof.Post_title;
 import com.example.tourismof.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -103,7 +104,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void sendusertoPostActivity() {
-        Intent intent = new Intent(getActivity(), PostActivity.class);
+        Intent intent = new Intent(getActivity(), Post_title.class);
         startActivity(intent);
     }
 }
