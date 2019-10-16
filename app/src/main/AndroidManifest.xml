@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Post_desctiption"></activity>
+        <activity android:name=".ClickPost"></activity>
+        <activity android:name=".OnClickPost" />
+        <activity android:name=".post_location" />
+        <activity android:name=".Post_desctiption" />
         <activity android:name=".Post_title" />
         <activity android:name=".Price" />
         <activity android:name=".FirstActivity" />

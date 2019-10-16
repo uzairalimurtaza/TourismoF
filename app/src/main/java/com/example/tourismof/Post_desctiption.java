@@ -30,25 +30,25 @@ public class Post_desctiption extends AppCompatActivity {
             price = extras.getString("price");
         }
 
+
         Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendUserToPostActivity();
-            }
 
-            private void sendUserToPostActivity() {
-
-
-                Intent newintent = new Intent(Post_desctiption.this, PostActivity.class);
-                newintent.putExtra("title", title);
-                newintent.putExtra("price", price);
-                newintent.putExtra("description", description.getText().toString());
-                startActivity(newintent);
+                sendUserToLocationActivity();
             }
         });
 
 
 
 
+    }
+
+    private void sendUserToLocationActivity() {
+        Intent newintent = new Intent(Post_desctiption.this, post_location.class);
+        newintent.putExtra("title", title);
+        newintent.putExtra("price", price);
+        newintent.putExtra("description", description.getText().toString());
+        startActivity(newintent);
     }
 }

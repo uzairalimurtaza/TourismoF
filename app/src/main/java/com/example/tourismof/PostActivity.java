@@ -44,13 +44,13 @@ public class PostActivity extends AppCompatActivity {
 
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
-    private String Description,Price, Location;
+    private String Description,Price, Location,Title;
 
     private StorageReference PostsImagesRefrence;
     private DatabaseReference UsersRef, PostsRef;
     private FirebaseAuth mAuth;
 
-    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id, title, description, price;
+    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadUrl, current_user_id, title, description, price,location;
 
 
     @Override
@@ -70,7 +70,6 @@ public class PostActivity extends AppCompatActivity {
         SelectPostImage = findViewById(R.id.post_image);
         UpdatePostButton = findViewById(R.id.Add_post_button);
 //        PostDescription = findViewById(R.id.post_description);
-        PostLocation = findViewById(R.id.post_location);
 //        PostPrice = findViewById(R.id.post_price);
 
         Intent intent = getIntent();
@@ -79,6 +78,7 @@ public class PostActivity extends AppCompatActivity {
             title = extras.getString("title");
             price = extras.getString("price");
             description = extras.getString("description");
+            location = extras.getString("location");
         }
 
 
@@ -107,8 +107,8 @@ public class PostActivity extends AppCompatActivity {
     {
         Description = description;
         Price = price;
-        title = title;
-        Location = PostLocation.getText().toString();
+        Title = title;
+        Location = location;
 
         if(ImageUri == null)
         {

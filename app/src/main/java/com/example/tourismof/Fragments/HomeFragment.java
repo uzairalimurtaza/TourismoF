@@ -1,19 +1,28 @@
 package com.example.tourismof.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tourismof.ClickPost;
+import com.example.tourismof.OnClickPost;
+import com.example.tourismof.Post_desctiption;
+import com.example.tourismof.Price;
 import com.example.tourismof.R;
+import com.example.tourismof.RegisterActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +40,7 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference UserRef, PostRef;
     private Context ctx;
+    private CardView cardView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,6 +51,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        cardView = view.findViewById(R.id.Card_view);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -67,11 +79,24 @@ public class HomeFragment extends Fragment {
         FirebaseRecyclerAdapter<Posts, PostsVIewHolder> adapter =
                 new FirebaseRecyclerAdapter<Posts, PostsVIewHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull PostsVIewHolder holder, int position, @NonNull Posts model) {
+                    protected void onBindViewHolder(@NonNull final PostsVIewHolder holder, final int position, @NonNull Posts model) {
+
+
                         holder.setprice(model.getprice());
                         holder.setlocation(model.getlocation());
                         holder.setDescription(model.getDescription());
                         holder.setPostimage(getActivity().getApplicationContext(), model.getPostimage());
+
+                        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), ClickPost.class);
+                                Toast.makeText(getContext(), "Please Enter Email", Toast.LENGTH_SHORT).show();
+
+                                intent.putExtra("postKey",getRef(position).getKey());
+                                getActivity().startActivity(intent);
+                            }
+                        });
                     }
 
                     @NonNull
@@ -88,10 +113,13 @@ public class HomeFragment extends Fragment {
 
     public static class PostsVIewHolder extends RecyclerView.ViewHolder {
         View mView;
+        LinearLayout linearLayout;
+
 
         public PostsVIewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
+            linearLayout = mView.findViewById(R.id.Card_view_linear);
         }
 
         public void setDescription(String description) {

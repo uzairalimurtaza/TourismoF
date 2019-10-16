@@ -32,7 +32,7 @@ public class Price extends AppCompatActivity {
 
     private Button btn;
     private EditText Price;
-    private String title;
+    private String title,title1;
 
 
     @Override
@@ -46,8 +46,6 @@ public class Price extends AppCompatActivity {
         Intent intent = getIntent();
 
         title = intent.getStringExtra("title");
-        Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
